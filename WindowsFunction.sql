@@ -48,3 +48,50 @@ Rank inom landet
 Quartile inom landet
 Sortera per land och sedan ranking i fallande ordning
 */
+
+SELECT*
+	--CustomerID
+	--,Country
+FROM
+Customers c
+LEFT JOIN Orders o ON c.CustomerID = o.CustomerID
+
+SELECT*FROM Orders
+
+WITH OrderCount AS(
+SELECT
+	c.CustomerID
+	,c.Country
+	,COUNT(o.OrderID) AS TotalOrders
+FROM
+Customers c
+LEFT JOIN Orders o ON c.CustomerID = o.CustomerID
+GROUP BY c.CustomerID,c.Country)
+SELECT
+	CustomerID,
+	Country,
+	TotalOrders,
+	DENSE_RANK()OVER(ORDER BY TotalOrders DESC) GlobalRank,
+	RANK()OVER(PARTITION BY Country ORDER BY TotalOrders DESC) CountryRank,
+	NTILE(4) OVER(PARTITION BY Country ORDER BY TotalOrders DESC) CountryQuartile
+FROM OrderCount
+ORDER BY
+Country,
+GlobalRank DESC;
+
+SELECT 
+    c.CustomerID,
+    c.Country,
+    COUNT(o.OrderID) AS TotalOrders,
+    RANK() OVER (ORDER BY COUNT(o.OrderID) DESC) AS OrderRank,
+    RANK() OVER (PARTITION BY c.Country ORDER BY COUNT(o.OrderID) DESC) AS CountryRank,
+    NTILE(4) OVER (PARTITION BY c.Country ORDER BY COUNT(o.OrderID) DESC) AS QuartileCountry
+FROM 
+    Customers c
+    LEFT JOIN Orders o ON c.CustomerID = o.CustomerID
+GROUP BY 
+    c.CustomerID,
+    c.Country
+ORDER BY 
+    c.Country ASC,
+    OrderRank DESC;
