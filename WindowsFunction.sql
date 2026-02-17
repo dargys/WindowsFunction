@@ -21,7 +21,7 @@ SELECT
 	,ProductName
 	,CategoryId
 	,UnitPrice
-	,RANK()OVER(PARTITION BY CategoryID ORDER BY UnitPrice) RankPrice
+	,RANK()OVER(PARTITION BY CategoryID ORDER BY UnitPrice DESC) RankPrice
 FROM
 Products
 
@@ -32,8 +32,8 @@ SELECT
 	,ProductName
 	,CategoryId
 	,UnitPrice
-	,RANK()OVER(PARTITION BY CategoryID ORDER BY UnitPrice) RankPrice
-	,DENSE_RANK() OVER(PARTITION BY CategoryID ORDER BY UnitPrice) DenseRankPrice
+	,RANK()OVER(PARTITION BY CategoryID ORDER BY UnitPrice DESC) RankPrice
+	,DENSE_RANK() OVER(PARTITION BY CategoryID ORDER BY UnitPrice DESC) DenseRankPrice
 FROM
 Products
 
