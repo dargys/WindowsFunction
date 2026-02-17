@@ -7,3 +7,20 @@ SELECT
 FROM Employees
 
 -- Jag skulle inte kunna visa detaljerad information med GROUP BY. 
+
+/*2. Visa för varje produkt:
+ProductId
+ProductName
+CategoryId
+UnitPrice
+Rank av pris inom samma kategori (descending)
+*/
+
+SELECT
+	ProductId
+	,ProductName
+	,CategoryId
+	,UnitPrice
+	,RANK()OVER(PARTITION BY CategoryID ORDER BY UnitPrice) RankPrice
+FROM
+Products
