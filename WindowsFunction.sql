@@ -24,3 +24,27 @@ SELECT
 	,RANK()OVER(PARTITION BY CategoryID ORDER BY UnitPrice) RankPrice
 FROM
 Products
+
+/*3. Lägg på fråga 2 till en ny kolumn med DENSE_RANK() istället för RANK(). Vad blir skillnaden i kolumnerna?*/
+
+SELECT
+	ProductId
+	,ProductName
+	,CategoryId
+	,UnitPrice
+	,RANK()OVER(PARTITION BY CategoryID ORDER BY UnitPrice) RankPrice
+	,DENSE_RANK() OVER(PARTITION BY CategoryID ORDER BY UnitPrice) DenseRankPrice
+FROM
+Products
+
+--I DENSE_RANK() följer sin ordning medans RANK() följer en logisk ordning.
+
+/*4. Visa för varje kund:
+CustomerID
+Land
+Totalt antal beställningar
+Ranking baserat på beställningar
+Rank inom landet
+Quartile inom landet
+Sortera per land och sedan ranking i fallande ordning
+*/
